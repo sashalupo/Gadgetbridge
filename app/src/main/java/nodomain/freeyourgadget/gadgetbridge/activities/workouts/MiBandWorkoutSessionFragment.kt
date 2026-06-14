@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -40,20 +41,36 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
 
     private val realtimeSampleReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE)
+            val device = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra(GBDevice.EXTRA_DEVICE, GBDevice::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                intent.getParcelableExtra(GBDevice.EXTRA_DEVICE)
+            }
             if (device == null || device != gbDevice || !isTracking) {
                 return
             }
 
-            handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE))
+            val realtimeSample = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE, Serializable::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE)
+            }
+
+            handleRealtimeSample(realtimeSample)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        gbDevice = requireArguments().getParcelable(ARG_DEVICE)
-            ?: throw IllegalStateException("GBDevice is required")
+        gbDevice = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireArguments().getParcelable(ARG_DEVICE, GBDevice::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            requireArguments().getParcelable(ARG_DEVICE)
+        } ?: throw IllegalStateException("GBDevice is required")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
