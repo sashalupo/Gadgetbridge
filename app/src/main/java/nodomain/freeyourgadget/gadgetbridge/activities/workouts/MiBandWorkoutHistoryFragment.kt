@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -145,7 +146,7 @@ class MiBandWorkoutHistoryFragment : Fragment(R.layout.fragment_miband_workout_h
         chartView?.xAxis?.valueFormatter = object : ValueFormatter() {
             private val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
 
-            override fun getAxisLabel(value: Float, axis: XAxis?): String {
+            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                 return timeFormat.format(Date(workout.startedAt + (value * 1000L).toLong()))
             }
         }
