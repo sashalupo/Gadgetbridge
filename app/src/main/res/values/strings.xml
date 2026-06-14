@@ -1522,6 +1522,9 @@
     <string name="miband_workout_metric_steps_value">342</string>
     <string name="miband_workout_metric_distance_value">0.24 km</string>
     <string name="miband_workout_open_history">Open workout history</string>
+    <string name="miband_workout_history_empty">No saved workouts yet. Start and stop a workout to see it here.</string>
+    <string name="miband_workout_history_chart_empty">No saved workout selected</string>
+    <string name="miband_workout_history_item_details">%1$d steps | max %2$d bpm | %3$s</string>
     <string name="activity_type_not_measured">Not measured</string>
     <string name="activity_type_activity">Activity</string>
     <string name="activity_type_light_sleep">Light sleep</string>

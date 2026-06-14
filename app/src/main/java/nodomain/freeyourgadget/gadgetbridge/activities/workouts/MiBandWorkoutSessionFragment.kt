@@ -36,8 +36,10 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
 
     private var isTracking = false
     private var pulseScheduler: ScheduledExecutorService? = null
+    private var sessionStartedAt = 0L
     private var sessionSteps = 0
     private var currentHeartRate = ActivitySample.NOT_MEASURED
+    private val sessionSamples = mutableListOf<MiBandWorkoutSampleRecord>()
 
     private val realtimeSampleReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -92,9 +94,10 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
             isTracking = !isTracking
 
             if (isTracking) {
-                resetMetrics()
+                resetSession()
                 startRealtimeTracking()
             } else {
+                saveCompletedWorkout()
                 stopRealtimeTracking()
             }
 
@@ -146,15 +149,20 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
         }
     }
 
-    private fun resetMetrics() {
+    private fun resetSession() {
+        sessionStartedAt = System.currentTimeMillis()
         sessionSteps = 0
         currentHeartRate = ActivitySample.NOT_MEASURED
+        sessionSamples.clear()
         renderMetrics()
     }
 
     private fun handleRealtimeSample(serializedSample: Serializable?) {
+        var sampleTimestamp = System.currentTimeMillis()
+
         when (serializedSample) {
             is ActivitySample -> {
+                sampleTimestamp = serializedSample.timestamp.toLong() * 1000L
                 if (serializedSample.steps > 0) {
                     sessionSteps += serializedSample.steps
                 }
@@ -163,6 +171,7 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
                 }
             }
             is HeartRateSample -> {
+                sampleTimestamp = serializedSample.timestamp
                 if (serializedSample.heartRate > 0) {
                     currentHeartRate = serializedSample.heartRate
                 }
@@ -170,7 +179,49 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
             else -> return
         }
 
+        appendSessionSample(sampleTimestamp)
         renderMetrics()
+    }
+
+    private fun appendSessionSample(timestamp: Long) {
+        if (sessionStartedAt == 0L || sessionSamples.isEmpty() && timestamp < sessionStartedAt) {
+            sessionStartedAt = timestamp
+        }
+
+        if (sessionSteps == 0 && currentHeartRate <= 0) {
+            return
+        }
+
+        val sample = MiBandWorkoutSampleRecord(
+            timestamp = timestamp,
+            steps = sessionSteps,
+            heartRate = currentHeartRate
+        )
+
+        val lastSample = sessionSamples.lastOrNull()
+        if (lastSample != null && kotlin.math.abs(lastSample.timestamp - timestamp) < 1_000L) {
+            sessionSamples[sessionSamples.lastIndex] = sample
+        } else {
+            sessionSamples.add(sample)
+        }
+    }
+
+    private fun saveCompletedWorkout() {
+        if (sessionSamples.isEmpty()) {
+            return
+        }
+
+        val maxHeartRate = sessionSamples.maxOfOrNull { if (it.heartRate > 0) it.heartRate else 0 } ?: 0
+        val workout = MiBandWorkoutRecord(
+            id = sessionStartedAt,
+            startedAt = sessionStartedAt,
+            endedAt = sessionSamples.last().timestamp,
+            totalSteps = sessionSteps,
+            maxHeartRate = maxHeartRate,
+            samples = sessionSamples.toList()
+        )
+
+        MiBandWorkoutHistoryStore.save(gbDevice, workout)
     }
 
     private fun renderMetrics() {
