@@ -13,7 +13,7 @@ class MiBandWorkoutPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return if (position == 0) {
-            MiBandWorkoutSessionFragment()
+            MiBandWorkoutSessionFragment.newInstance(gbDevice)
         } else {
             MiBandWorkoutHistoryFragment.newInstance(gbDevice)
         }
