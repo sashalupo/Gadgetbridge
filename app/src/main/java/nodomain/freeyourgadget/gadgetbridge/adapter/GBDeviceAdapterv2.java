@@ -104,6 +104,7 @@ import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.DeviceDeleteActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.MiBandWorkoutHubActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.workouts.WorkoutListActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.BatteryInfoActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
@@ -120,6 +121,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCardAction;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -575,7 +577,11 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                          @Override
                                                          public void onClick(View v) {
                                                              Intent startIntent;
-                                                             startIntent = new Intent(context, WorkoutListActivity.class);
+                                                             if (coordinator instanceof MiBandCoordinator) {
+                                                                 startIntent = new Intent(context, MiBandWorkoutHubActivity.class);
+                                                             } else {
+                                                                 startIntent = new Intent(context, WorkoutListActivity.class);
+                                                             }
                                                              startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                                                              context.startActivity(startIntent);
                                                          }
