@@ -239,6 +239,11 @@ public class MiBandCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRecordedActivities(@NonNull final GBDevice device) {
+        return supportsHeartRateMeasurement(device);
+    }
+
+    @Override
     public DeviceSpecificSettings getDeviceSpecificSettings(final GBDevice device) {
         final DeviceSpecificSettings deviceSpecificSettings = new DeviceSpecificSettings();
 
