@@ -1512,7 +1512,7 @@
     <string name="miband_workout_tab_history">History</string>
     <string name="miband_workout_add_activity">Add new workout activity</string>
     <string name="miband_workout_stop_activity">Stop workout activity</string>
-    <string name="miband_workout_mock_description">Mock tracking view with placeholder values.</string>
+    <string name="miband_workout_mock_description">Live workout metrics update here while the activity is running.</string>
     <string name="miband_workout_status_idle">No workout running</string>
     <string name="miband_workout_status_running">Workout running</string>
     <string name="miband_workout_metric_heart_rate">Heart rate</string>

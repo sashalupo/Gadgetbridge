@@ -69,6 +69,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <TextView
+                    android:id="@+id/workout_heart_rate_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/miband_workout_metric_heart_rate_value"
@@ -82,6 +83,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <TextView
+                    android:id="@+id/workout_steps_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/miband_workout_metric_steps_value"
@@ -95,6 +97,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <TextView
+                    android:id="@+id/workout_distance_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/miband_workout_metric_distance_value"

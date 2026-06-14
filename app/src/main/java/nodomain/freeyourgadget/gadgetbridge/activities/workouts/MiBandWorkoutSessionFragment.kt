@@ -1,14 +1,24 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.workouts
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import nodomain.freeyourgadget.gadgetbridge.GBApplication
 import nodomain.freeyourgadget.gadgetbridge.R
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice
+import java.io.Serializable
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -19,9 +29,25 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
     private var actionButton: Button? = null
     private var statusValue: TextView? = null
     private var metricsContainer: View? = null
+    private var heartRateValue: TextView? = null
+    private var stepsValue: TextView? = null
+    private var distanceValue: TextView? = null
 
     private var isTracking = false
     private var pulseScheduler: ScheduledExecutorService? = null
+    private var sessionSteps = 0
+    private var currentHeartRate = ActivitySample.NOT_MEASURED
+
+    private val realtimeSampleReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE)
+            if (device == null || device != gbDevice || !isTracking) {
+                return
+            }
+
+            handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +62,20 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
         actionButton = view.findViewById(R.id.workout_add_button)
         statusValue = view.findViewById(R.id.workout_status_value)
         metricsContainer = view.findViewById(R.id.workout_metrics_container)
+        heartRateValue = view.findViewById(R.id.workout_heart_rate_value)
+        stepsValue = view.findViewById(R.id.workout_steps_value)
+        distanceValue = view.findViewById(R.id.workout_distance_value)
+
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            realtimeSampleReceiver,
+            IntentFilter(DeviceService.ACTION_REALTIME_SAMPLES)
+        )
 
         actionButton?.setOnClickListener {
             isTracking = !isTracking
 
             if (isTracking) {
+                resetMetrics()
                 startRealtimeTracking()
             } else {
                 stopRealtimeTracking()
@@ -50,6 +85,7 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
         }
 
         updateUiState()
+        renderMetrics()
     }
 
     override fun onResume() {
@@ -68,9 +104,13 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
 
     override fun onDestroyView() {
         stopActivityPulse()
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(realtimeSampleReceiver)
         actionButton = null
         statusValue = null
         metricsContainer = null
+        heartRateValue = null
+        stepsValue = null
+        distanceValue = null
         super.onDestroyView()
     }
 
@@ -84,6 +124,51 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
             else R.string.miband_workout_add_activity
         )
         metricsContainer?.isVisible = isTracking
+        if (!isTracking) {
+            renderMetrics()
+        }
+    }
+
+    private fun resetMetrics() {
+        sessionSteps = 0
+        currentHeartRate = ActivitySample.NOT_MEASURED
+        renderMetrics()
+    }
+
+    private fun handleRealtimeSample(serializedSample: Serializable?) {
+        when (serializedSample) {
+            is ActivitySample -> {
+                if (serializedSample.steps > 0) {
+                    sessionSteps += serializedSample.steps
+                }
+                if (serializedSample.heartRate > 0) {
+                    currentHeartRate = serializedSample.heartRate
+                }
+            }
+            is HeartRateSample -> {
+                if (serializedSample.heartRate > 0) {
+                    currentHeartRate = serializedSample.heartRate
+                }
+            }
+            else -> return
+        }
+
+        renderMetrics()
+    }
+
+    private fun renderMetrics() {
+        val context = context ?: return
+        val heartRateText = if (currentHeartRate > 0) {
+            context.getString(R.string.bpm_value_unit, currentHeartRate)
+        } else {
+            context.getString(R.string.activity_type_not_measured)
+        }
+        val stepLengthCm = ActivityUser().stepLengthCm
+        val distanceKm = sessionSteps * stepLengthCm / 100000f
+
+        heartRateValue?.text = heartRateText
+        stepsValue?.text = sessionSteps.toString()
+        distanceValue?.text = context.getString(R.string.steps_distance_unit, distanceKm)
     }
 
     private fun pulse() {
