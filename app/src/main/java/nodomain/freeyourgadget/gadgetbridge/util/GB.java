@@ -62,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.MiBandWorkoutHubActivity;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -92,6 +93,7 @@ public class GB {
     public static final int NOTIFICATION_ID_GPS = 7;
     public static final int NOTIFICATION_ID_SCAN = 8;
     public static final int NOTIFICATION_ID_PEBBLE_JS = 10;
+    public static final int NOTIFICATION_ID_WORKOUT = 11;
     public static final int NOTIFICATION_ID_ERROR = 42;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
@@ -660,6 +662,25 @@ public class GB {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setOngoing(false);
+
+        return nb.build();
+    }
+
+    public static Notification createWorkoutNotification(CharSequence title, CharSequence text, GBDevice device, Context context) {
+        Intent notificationIntent = new Intent(context, MiBandWorkoutHubActivity.class);
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
+        notificationIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_CONNECTION_STATUS)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setPriority(Notification.PRIORITY_LOW)
+                .setOngoing(true);
 
         return nb.build();
     }
