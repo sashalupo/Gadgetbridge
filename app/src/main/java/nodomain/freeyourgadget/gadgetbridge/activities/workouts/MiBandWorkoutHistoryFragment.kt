@@ -101,13 +101,18 @@ class MiBandWorkoutHistoryFragment : Fragment(R.layout.fragment_miband_workout_h
     private fun setupChart(chart: LineChart) {
         chart.description.isEnabled = false
         chart.setNoDataText(getString(R.string.miband_workout_history_chart_empty))
+        chart.setNoDataTextColor(Color.WHITE)
         chart.legend.isEnabled = true
+        chart.legend.textColor = Color.WHITE
         chart.axisLeft.axisMinimum = 0f
+        chart.axisLeft.textColor = Color.WHITE
         chart.axisRight.axisMinimum = 0f
+        chart.axisRight.textColor = Color.WHITE
         chart.axisRight.isEnabled = true
         chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         chart.xAxis.granularity = 1f
         chart.xAxis.setDrawGridLines(false)
+        chart.xAxis.textColor = Color.WHITE
     }
 
     private fun renderWorkout(workout: MiBandWorkoutRecord) {
