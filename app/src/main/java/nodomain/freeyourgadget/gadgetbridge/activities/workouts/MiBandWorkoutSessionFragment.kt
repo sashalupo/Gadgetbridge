@@ -31,6 +31,7 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
     private var statusValue: TextView? = null
     private var metricsContainer: View? = null
     private var heartRateValue: TextView? = null
+    private var durationValue: TextView? = null
     private var stepsValue: TextView? = null
     private var distanceValue: TextView? = null
 
@@ -82,6 +83,7 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
         statusValue = view.findViewById(R.id.workout_status_value)
         metricsContainer = view.findViewById(R.id.workout_metrics_container)
         heartRateValue = view.findViewById(R.id.workout_heart_rate_value)
+        durationValue = view.findViewById(R.id.workout_duration_value)
         stepsValue = view.findViewById(R.id.workout_steps_value)
         distanceValue = view.findViewById(R.id.workout_distance_value)
 
@@ -234,14 +236,32 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
         val stepLengthCm = ActivityUser().stepLengthCm
         val distanceKm = sessionSteps * stepLengthCm / 100000f
 
+        val durationMillis = if (sessionStartedAt > 0) {
+            System.currentTimeMillis() - sessionStartedAt
+        } else {
+            0L
+        }
+
         heartRateValue?.text = heartRateText
+        durationValue?.text = formatDuration(durationMillis)
         stepsValue?.text = sessionSteps.toString()
         distanceValue?.text = context.getString(R.string.steps_distance_unit, distanceKm)
+    }
+
+    private fun formatDuration(millis: Long): String {
+        val totalSeconds = millis / 1000
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
+        val seconds = totalSeconds % 60
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
 
     private fun pulse() {
         // Re-send realtime HR enable periodically to keep measurement active on Mi Band 1S.
         GBApplication.deviceService(gbDevice).onEnableRealtimeHeartRateMeasurement(true)
+        activity?.runOnUiThread {
+            renderMetrics()
+        }
     }
 
     private fun startActivityPulse(intervalMs: Int): ScheduledExecutorService {

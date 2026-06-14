@@ -149,10 +149,8 @@ class MiBandWorkoutHistoryFragment : Fragment(R.layout.fragment_miband_workout_h
         }
 
         chartView?.xAxis?.valueFormatter = object : ValueFormatter() {
-            private val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-
             override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                return timeFormat.format(Date(workout.startedAt + (value * 1000L).toLong()))
+                return DateUtils.formatElapsedTime(value.toLong())
             }
         }
 
