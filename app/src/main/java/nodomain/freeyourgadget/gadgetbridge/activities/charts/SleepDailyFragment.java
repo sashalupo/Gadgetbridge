@@ -356,10 +356,10 @@ public class SleepDailyFragment extends SleepFragment<SleepDailyFragment.MyChart
 
     protected void sleepStagesGaugeUpdate(MySleepChartsData pieData) {
         int[] colors = new int[]{
-                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_light_sleep_light),
-                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_deep_sleep_light),
-                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_rem_sleep_light),
-                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_awake_sleep_light),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_light_sleep_dark),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_deep_sleep_dark),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_rem_sleep_dark),
+                ContextCompat.getColor(GBApplication.getContext(), R.color.chart_awake_sleep_dark),
         };
         long total = pieData.getTotalSleep() + pieData.getTotalAwake();
         float[] segments = new float[]{
@@ -370,23 +370,20 @@ public class SleepDailyFragment extends SleepFragment<SleepDailyFragment.MyChart
         };
         final int width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                300,
+                200,
                 GBApplication.getContext().getResources().getDisplayMetrics()
         );
-        String lowerText = "";
-        if (supportsSleepScore()) {
-            lowerText = GBApplication.getContext().getString(R.string.sleep_score_value, pieData.getSleepScore());
-        }
         binding.sleepStagesGauge.setImageBitmap(GaugeDrawer.drawCircleGaugeSegmented(
                 width,
-                width / 15,
+                (int) (width * 0.06f),
                 colors,
                 segments,
                 true,
-                String.valueOf(timeStringFormat(pieData.getTotalSleep())),
-                lowerText,
+                "",
+                "",
                 getContext()
         ));
+        binding.sleepChartTotalTime.setText(String.valueOf(timeStringFormat(pieData.getTotalSleep())));
     }
 
     private String timeStringFormat(long seconds) {
