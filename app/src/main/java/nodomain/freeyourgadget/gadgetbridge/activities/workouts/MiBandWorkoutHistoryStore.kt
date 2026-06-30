@@ -1,9 +1,24 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.workouts
 
+import androidx.annotation.StringRes
 import nodomain.freeyourgadget.gadgetbridge.GBApplication
+import nodomain.freeyourgadget.gadgetbridge.R
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice
 import org.json.JSONArray
 import org.json.JSONObject
+
+enum class MiBandWorkoutType(val key: String, @StringRes val nameRes: Int) {
+    CLIMBING("climbing", R.string.miband_workout_type_climbing),
+    GRAVEL("gravel", R.string.miband_workout_type_gravel),
+    ANIMAL_FLOW("animal_flow", R.string.miband_workout_type_animal_flow),
+    WALKING("walking", R.string.miband_workout_type_walking);
+
+    companion object {
+        fun fromKey(key: String): MiBandWorkoutType {
+            return entries.find { it.key == key } ?: WALKING
+        }
+    }
+}
 
 data class MiBandWorkoutSampleRecord(
     val timestamp: Long,
@@ -17,6 +32,7 @@ data class MiBandWorkoutRecord(
     val endedAt: Long,
     val totalSteps: Int,
     val maxHeartRate: Int,
+    val type: MiBandWorkoutType = MiBandWorkoutType.WALKING,
     val samples: List<MiBandWorkoutSampleRecord>
 )
 
@@ -68,6 +84,7 @@ object MiBandWorkoutHistoryStore {
             .put("endedAt", workout.endedAt)
             .put("totalSteps", workout.totalSteps)
             .put("maxHeartRate", workout.maxHeartRate)
+            .put("type", workout.type.key)
             .put("samples", samplesArray)
     }
 
@@ -92,6 +109,7 @@ object MiBandWorkoutHistoryStore {
             endedAt = json.optLong("endedAt"),
             totalSteps = json.optInt("totalSteps"),
             maxHeartRate = json.optInt("maxHeartRate"),
+            type = MiBandWorkoutType.fromKey(json.optString("type", "walking")),
             samples = samples
         )
     }

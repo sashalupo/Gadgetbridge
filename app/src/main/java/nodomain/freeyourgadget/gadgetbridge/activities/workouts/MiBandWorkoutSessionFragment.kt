@@ -4,14 +4,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import nodomain.freeyourgadget.gadgetbridge.R
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice
 
@@ -61,16 +60,30 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
         actionButton?.setOnClickListener {
             if (MiBandWorkoutManager.isTracking) {
                 MiBandWorkoutManager.stopWorkout()
+                updateUiState()
             } else {
-                MiBandWorkoutManager.startWorkout(gbDevice)
-                uiUpdateHandler.post(uiUpdateRunnable)
+                showActivityTypeSelection()
             }
-
-            updateUiState()
         }
 
         updateUiState()
         renderMetrics()
+    }
+
+    private fun showActivityTypeSelection() {
+        val types = MiBandWorkoutType.entries
+        val typeNames = types.map { getString(it.nameRes) }.toTypedArray()
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.miband_workout_select_type)
+            .setItems(typeNames) { _, which ->
+                val selectedType = types[which]
+                MiBandWorkoutManager.startWorkout(gbDevice, selectedType)
+                uiUpdateHandler.post(uiUpdateRunnable)
+                updateUiState()
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
     override fun onResume() {
@@ -111,10 +124,12 @@ class MiBandWorkoutSessionFragment : Fragment(R.layout.fragment_miband_workout_s
         }
 
         actionButton?.isEnabled = true
-        statusValue?.setText(
-            if (isCurrentDeviceTracking) R.string.miband_workout_status_running
-            else R.string.miband_workout_status_idle
-        )
+        statusValue?.text = if (isCurrentDeviceTracking) {
+            "${getString(R.string.miband_workout_status_running)}: ${getString(MiBandWorkoutManager.sessionType.nameRes)}"
+        } else {
+            getString(R.string.miband_workout_status_idle)
+        }
+
         actionButton?.setText(
             if (isCurrentDeviceTracking) R.string.miband_workout_stop_activity
             else R.string.miband_workout_add_activity

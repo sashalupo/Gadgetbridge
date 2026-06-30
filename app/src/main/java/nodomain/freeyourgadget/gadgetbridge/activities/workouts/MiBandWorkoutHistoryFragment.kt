@@ -117,7 +117,7 @@ class MiBandWorkoutHistoryFragment : Fragment(R.layout.fragment_miband_workout_h
 
     private fun renderWorkout(workout: MiBandWorkoutRecord) {
         val titleFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-        chartTitleView?.text = titleFormat.format(Date(workout.startedAt))
+        chartTitleView?.text = "${titleFormat.format(Date(workout.startedAt))} - ${getString(workout.type.nameRes)}"
         chartDetailsView?.text = getString(
             R.string.miband_workout_history_item_details,
             workout.totalSteps,
@@ -214,7 +214,7 @@ class MiBandWorkoutHistoryFragment : Fragment(R.layout.fragment_miband_workout_h
             private val titleFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
 
             fun bind(workout: MiBandWorkoutRecord, selected: Boolean) {
-                titleView.text = titleFormat.format(Date(workout.startedAt))
+                titleView.text = "${titleFormat.format(Date(workout.startedAt))} - ${itemView.context.getString(workout.type.nameRes)}"
                 detailsView.text = itemView.context.getString(
                     R.string.miband_workout_history_item_details,
                     workout.totalSteps,

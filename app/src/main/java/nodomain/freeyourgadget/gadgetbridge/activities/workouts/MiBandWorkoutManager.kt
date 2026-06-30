@@ -32,6 +32,9 @@ object MiBandWorkoutManager {
         private set
     var currentHeartRate = ActivitySample.NOT_MEASURED
         private set
+    var sessionType = MiBandWorkoutType.WALKING
+        private set
+
     private val sessionSamples = mutableListOf<MiBandWorkoutSampleRecord>()
     private var gbDevice: GBDevice? = null
 
@@ -60,10 +63,11 @@ object MiBandWorkoutManager {
         }
     }
 
-    fun startWorkout(device: GBDevice) {
+    fun startWorkout(device: GBDevice, type: MiBandWorkoutType) {
         if (isTracking) return
         gbDevice = device
         isTracking = true
+        sessionType = type
         sessionStartedAt = System.currentTimeMillis()
         sessionSteps = 0
         currentHeartRate = ActivitySample.NOT_MEASURED
@@ -136,7 +140,7 @@ object MiBandWorkoutManager {
             DateUtils.formatElapsedTime(duration)
         )
         val notification = GB.createWorkoutNotification(
-            context.getString(R.string.miband_workout_status_running),
+            "${context.getString(R.string.miband_workout_status_running)}: ${context.getString(sessionType.nameRes)}",
             text,
             device,
             context
@@ -180,6 +184,7 @@ object MiBandWorkoutManager {
             endedAt = sessionSamples.last().timestamp,
             totalSteps = sessionSteps,
             maxHeartRate = maxHeartRate,
+            type = sessionType,
             samples = sessionSamples.toList()
         )
 
