@@ -6,39 +6,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?android:attr/windowBackground"
     tools:context=".activities.DashboardFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:padding="16dp"
         android:orientation="horizontal">
-        <Button
+        <TextView
             android:id="@+id/arrow_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="0dp"
             android:text="\u003C"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_alignParentLeft="true" />
+            android:textSize="24sp"
+            android:padding="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_alignParentStart="true" />
         <TextView
             android:id="@+id/dashboard_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/activity_summary_today"
             android:textStyle="bold"
-            android:textSize="25sp"
+            android:textSize="20sp"
+            android:textColor="?attr/textColorPrimary"
             android:layout_centerInParent="true"/>
-        <Button
+        <TextView
             android:id="@+id/arrow_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="0dp"
             android:text="\u003E"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_alignParentRight="true" />
+            android:textSize="24sp"
+            android:padding="8dp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -49,6 +53,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/dashboard_gridlayout"
-            app:columnCount="2" />
+            app:columnCount="1" />
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

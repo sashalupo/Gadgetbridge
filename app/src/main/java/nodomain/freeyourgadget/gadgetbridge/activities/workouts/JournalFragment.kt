@@ -18,8 +18,8 @@ class JournalFragment : Fragment(R.layout.fragment_nested_tabs) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tabLayout = view.findViewById<TabLayout>(R.id.nested_tab_layout)
-        val viewPager = view.findViewById<ViewPager2>(R.id.nested_view_pager)
+        val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
+        val viewPager = view.findViewById<ViewPager2>(R.id.pager)
 
         // Find the first device that supports workouts
         val device = GBApplication.app().getDeviceManager().getDevices().firstOrNull()

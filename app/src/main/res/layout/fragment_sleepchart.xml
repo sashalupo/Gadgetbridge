@@ -1,211 +1,208 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/windowBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/sleep_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:gravity="center"
-            android:textSize="20sp"
-            android:textColor="?attr/textColorPrimary"
-            />
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textStyle="bold"
+            android:textColor="?attr/textColorPrimary" />
 
         <TextView
             android:id="@+id/sleepchart_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="@string/stats_empty_value"
-            android:textSize="12sp" />
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="?attr/textColorSecondary" />
 
-        <ImageView
-            android:layout_weight="2"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/sleep_stages_gauge"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_gravity="center"
-            android:scaleType="fitStart" />
-
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="@color/garmin_card_background"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
 
-            <GridLayout
-                android:background="@color/gauge_line_color"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                >
-                <LinearLayout
-                    style="@style/GridTile"
-                    android:layout_marginBottom="0dp"
-                    >
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5dp"
-                        android:background="@color/chart_deep_sleep_dark"
-                        android:layout_marginBottom="10dp"
-                        />
-                    <TextView
-                        android:id="@+id/sleep_chart_legend_deep_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stats_empty_value"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="20sp" />
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:gravity="center">
 
-                    <TextView
-                        android:id="@+id/sleep_chart_legend_deep_legend"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sleep_colored_stats_deep"
-                        android:textSize="12sp" />
-                </LinearLayout>
-                <LinearLayout
-                    style="@style/GridTile"
-                    android:layout_marginBottom="0dp"
-                    >
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="5dp"
-                        android:background="@color/chart_light_sleep_dark"
-                        android:layout_marginBottom="10dp"
-                        />
+                <ImageView
+                    android:id="@+id/sleep_stages_gauge"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:scaleType="fitCenter" />
 
-                    <TextView
-                        android:id="@+id/sleep_chart_legend_light_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/stats_empty_value"
-                        android:textColor="?attr/textColorPrimary"
-                        android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/sleep_chart_total_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-110dp"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                    android:textStyle="bold"
+                    android:textColor="?attr/textColorPrimary" />
 
-                    <TextView
-                        android:id="@+id/sleep_chart_legend_light_legend"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sleep_colored_stats_light"
-                        android:textSize="12sp" />
-                </LinearLayout>
-                <LinearLayout
-                    style="@style/GridTile"
-                    android:layout_height="fill_parent"
-                    android:layout_marginBottom="0dp"
-                    >
-                    <LinearLayout
-                        android:id="@+id/sleep_chart_legend_rem_time_wrapper"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        >
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/chart_rem_sleep_dark"
-                            android:layout_marginBottom="10dp"
-                            />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="60dp"
+                    android:text="Total Sleep"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="?attr/textColorSecondary" />
 
-                        <TextView
-                            android:id="@+id/sleep_chart_legend_rem_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/stats_empty_value"
-                            android:textColor="?attr/textColorPrimary"
-                            android:textSize="20sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-                        <TextView
-                            android:id="@+id/sleep_chart_legend_rem_legend"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/sleep_colored_stats_rem"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:columnCount="2">
 
-                <LinearLayout
-                    style="@style/GridTile"
-                    android:layout_marginBottom="0dp"
-                    android:layout_height="fill_parent"
-                    >
-                    <LinearLayout
-                        android:id="@+id/sleep_chart_legend_awake_time_wrapper"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        >
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="5dp"
-                            android:background="@color/chart_awake_sleep_dark"
-                            android:layout_marginBottom="10dp"
-                            />
-                        <TextView
-                            android:id="@+id/sleep_chart_legend_awake_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/stats_empty_value"
-                            android:textColor="?attr/textColorPrimary"
-                            android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="4dp"
+                    android:background="@color/chart_deep_sleep_dark"
+                    android:layout_marginBottom="4dp" />
+                <TextView
+                    android:id="@+id/sleep_chart_legend_deep_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sleep_colored_stats_deep"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall" />
+            </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/sleep_chart_legend_awake_legend"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/abstract_chart_fragment_kind_awake_sleep"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </GridLayout>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="4dp"
+                    android:background="@color/chart_light_sleep_dark"
+                    android:layout_marginBottom="4dp" />
+                <TextView
+                    android:id="@+id/sleep_chart_legend_light_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sleep_colored_stats_light"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sleep_chart_legend_rem_time_wrapper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="4dp"
+                    android:background="@color/chart_rem_sleep_dark"
+                    android:layout_marginBottom="4dp" />
+                <TextView
+                    android:id="@+id/sleep_chart_legend_rem_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/sleep_chart_legend_rem_legend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sleep_colored_stats_rem"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/sleep_chart_legend_awake_time_wrapper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <View
+                    android:layout_width="24dp"
+                    android:layout_height="4dp"
+                    android:background="@color/chart_awake_sleep_dark"
+                    android:layout_marginBottom="4dp" />
+                <TextView
+                    android:id="@+id/sleep_chart_legend_awake_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/sleep_chart_legend_awake_legend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/abstract_chart_fragment_kind_awake_sleep"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall" />
+            </LinearLayout>
+        </androidx.gridlayout.widget.GridLayout>
 
         <nodomain.freeyourgadget.gadgetbridge.activities.charts.sleep.SleepDetailsView
             android:id="@+id/sleep_details"
-            android:layout_width="fill_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="4" />
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="24dp" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/sleep_chart_overlay_group"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            app:singleSelection="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginTop="16dp"
+            app:singleSelection="true" />
 
         <LinearLayout
             android:id="@+id/sleep_stats_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:orientation="vertical"/>
+            android:layout_marginTop="16dp"
+            android:orientation="vertical" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/sleepchart"
-            android:layout_width="fill_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="25dp"
-            android:layout_weight="4" />
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp" />
 
     </LinearLayout>
 </ScrollView>

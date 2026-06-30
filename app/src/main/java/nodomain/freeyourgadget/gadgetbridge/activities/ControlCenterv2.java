@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.debug.DebugActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.activities.discovery.DiscoveryActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.activities.welcome.WelcomeActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.workouts.JournalFragment;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -196,8 +197,10 @@ public class ControlCenterv2 extends AppCompatActivity
             final int itemId = menuItem.getItemId();
             if (itemId == R.id.bottom_nav_dashboard) {
                 viewPager.setCurrentItem(0, true);
-            } else if (itemId == R.id.bottom_nav_devices) {
+            } else if (itemId == R.id.bottom_nav_journal) {
                 viewPager.setCurrentItem(1, true);
+            } else if (itemId == R.id.bottom_nav_devices) {
+                viewPager.setCurrentItem(2, true);
             }
             return true;
         });
@@ -226,8 +229,8 @@ public class ControlCenterv2 extends AppCompatActivity
         pagerAdapter = new MainFragmentsPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
         if (!prefs.getBoolean("dashboard_as_default_view", true) || !activityTrackerAvailable) {
-            viewPager.setCurrentItem(1, false);
-            navigationView.getMenu().getItem(1).setChecked(true);
+            viewPager.setCurrentItem(2, false);
+            navigationView.getMenu().getItem(2).setChecked(true);
         }
 
         // Sync ViewPager changes with BottomNavigationView
@@ -437,16 +440,19 @@ public class ControlCenterv2 extends AppCompatActivity
 
         @Override
         public Fragment createFragment(int position) {
-            if (position == 0) {
-                return new DashboardFragment();
-            } else {
-                return new DevicesFragment();
+            switch (position) {
+                case 0:
+                    return new DashboardFragment();
+                case 1:
+                    return new JournalFragment();
+                default:
+                    return new DevicesFragment();
             }
         }
 
         @Override
         public int getItemCount() {
-            return 2;
+            return 3;
         }
     }
 }

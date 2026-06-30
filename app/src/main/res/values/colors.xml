@@ -118,6 +118,15 @@
 
     <color name="transparent">#00000000</color>
 
+    <!-- Garmin-inspired colors -->
+    <color name="garmin_blue">#00A9E0</color>
+    <color name="garmin_red">#E31C23</color>
+    <color name="garmin_purple">#6C20B3</color>
+    <color name="garmin_orange">#FF8200</color>
+    <color name="garmin_green">#59b22c</color>
+    <color name="garmin_dark_background">#121212</color>
+    <color name="garmin_card_background">#1E1E1E</color>
+
     <drawable name="selected">@color/accent</drawable>
 
 </resources>

@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -96,6 +95,7 @@ public class DashboardFragment extends Fragment implements MenuProvider {
 
     private final Calendar day = GregorianCalendar.getInstance();
     private TextView textViewDate;
+    private TextView arrowLeft;
     private TextView arrowRight;
     private GridLayout gridLayout;
     private final Map<String, AbstractDashboardWidget> widgetMap = new HashMap<>();
@@ -148,13 +148,10 @@ public class DashboardFragment extends Fragment implements MenuProvider {
                 calendarCallback
         );
 
-        // Increase column count on landscape, tablets and open foldables
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        if (displayMetrics.widthPixels / displayMetrics.density >= 600) {
-            gridLayout.setColumnCount(4);
-        }
+        // Force single column for Garmin style
+        gridLayout.setColumnCount(1);
 
-        final TextView arrowLeft = dashboardView.findViewById(R.id.arrow_left);
+        arrowLeft = dashboardView.findViewById(R.id.arrow_left);
         arrowLeft.setOnClickListener(v -> {
             day.add(Calendar.DAY_OF_MONTH, -1);
             refresh();
@@ -358,18 +355,18 @@ public class DashboardFragment extends Fragment implements MenuProvider {
 
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams(
                 GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f),
-                GridLayout.spec(GridLayout.UNDEFINED, columnSpan, GridLayout.FILL, 1f)
+                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
         );
-        layoutParams.width = 0;
+        layoutParams.width = GridLayout.LayoutParams.MATCH_PARENT;
         int pixels_8dp = (int) (8 * scale + 0.5f);
-        layoutParams.setMargins(pixels_8dp, pixels_8dp, pixels_8dp, pixels_8dp);
+        int pixels_4dp = (int) (4 * scale + 0.5f);
+        layoutParams.setMargins(pixels_8dp, pixels_4dp, pixels_8dp, pixels_4dp);
 
         if (cardsEnabled) {
             MaterialCardView card = new MaterialCardView(requireActivity());
-            int pixels_4dp = (int) (4 * scale + 0.5f);
-            card.setRadius(pixels_4dp);
-            card.setCardElevation(pixels_4dp);
-            card.setContentPadding(pixels_4dp, pixels_4dp, pixels_4dp, pixels_4dp);
+            card.setRadius(pixels_8dp);
+            card.setCardElevation(2 * scale);
+            card.setStrokeWidth(0);
             card.setLayoutParams(layoutParams);
             card.addView(fragment);
             gridLayout.addView(card);

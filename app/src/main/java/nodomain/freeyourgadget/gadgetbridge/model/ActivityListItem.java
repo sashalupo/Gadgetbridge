@@ -34,12 +34,12 @@ public class ActivityListItem {
     private final TextView intensityLabel;
     private final TextView durationLabel;
     private final TextView dateLabel;
-    private final LinearLayout timeLayout;
-    private final LinearLayout hrLayout;
-    private final LinearLayout stepsLayout;
-    private final LinearLayout distanceLayout;
-    private final LinearLayout intensityLayout;
-    private final RelativeLayout parentLayout;
+    private final View timeLayout;
+    private final View hrLayout;
+    private final View stepsLayout;
+    private final View distanceLayout;
+    private final View intensityLayout;
+    private final View parentLayout;
     private final ImageView activityIcon;
     private final ImageView gpsIcon;
 
@@ -50,22 +50,22 @@ public class ActivityListItem {
     public ActivityListItem(final View itemView) {
         this.rootView = itemView;
 
-        this.timeFromView = itemView.findViewById(R.id.line_layout_time_from);
-        this.timeToView = itemView.findViewById(R.id.line_layout_time_to);
+        this.timeFromView = null;
+        this.timeToView = null;
         this.activityName = itemView.findViewById(R.id.line_layout_activity_name);
-        this.activityLabelText = itemView.findViewById(R.id.line_layout_activity_label);
-        this.stepLabel = itemView.findViewById(R.id.line_layout_step_label);
+        this.activityLabelText = null;
+        this.stepLabel = null;
         this.distanceLabel = itemView.findViewById(R.id.line_layout_distance_label);
         this.hrLabel = itemView.findViewById(R.id.line_layout_hr_label);
-        this.intensityLabel = itemView.findViewById(R.id.line_layout_intensity_label);
+        this.intensityLabel = null;
         this.durationLabel = itemView.findViewById(R.id.line_layout_duration_label);
         this.dateLabel = itemView.findViewById(R.id.line_layout_date_label);
 
-        this.timeLayout = itemView.findViewById(R.id.line_layout_time);
+        this.timeLayout = null;
         this.hrLayout = itemView.findViewById(R.id.line_layout_hr);
-        this.stepsLayout = itemView.findViewById(R.id.line_layout_step);
+        this.stepsLayout = null;
         this.distanceLayout = itemView.findViewById(R.id.line_layout_distance);
-        this.intensityLayout = itemView.findViewById(R.id.line_layout_intensity);
+        this.intensityLayout = null;
 
         this.parentLayout = itemView.findViewById(R.id.list_item_parent_layout);
 
@@ -91,72 +91,92 @@ public class ActivityListItem {
                        final boolean zebraStripe,
                        final boolean selected) {
         final String activityKindLabel = activityKind.getLabel(activityName.getContext());
-        if (StringUtils.isNotBlank(activityLabel)) {
-            activityLabelText.setText(String.format("%s", activityKindLabel));
-            activityName.setText(String.format("%s", activityLabel));
+        if (activityLabelText != null) {
+            if (StringUtils.isNotBlank(activityLabel)) {
+                activityLabelText.setText(String.format("%s", activityKindLabel));
+                activityName.setText(String.format("%s", activityLabel));
+                activityLabelText.setVisibility(View.VISIBLE);
+            } else {
+                activityLabelText.setVisibility(View.GONE);
+                activityName.setText(String.format("%s", activityKindLabel));
+            }
         } else {
-            activityLabelText.setVisibility(View.GONE);
-            activityName.setText(String.format("%s", activityKindLabel));
-        }
-        durationLabel.setText(DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS));
-
-        if (heartRate > 0) {
-            hrLabel.setText(String.valueOf(heartRate));
-            hrLayout.setVisibility(View.VISIBLE);
-        } else {
-            hrLayout.setVisibility(View.GONE);
+            activityName.setText(StringUtils.isNotBlank(activityLabel) ? activityLabel : activityKindLabel);
         }
 
-        if (intensity >= 0) {
-            final DecimalFormat df = new DecimalFormat("###");
-            intensityLabel.setText(df.format(intensity));
-            intensityLayout.setVisibility(View.VISIBLE);
-        } else {
-            intensityLayout.setVisibility(View.GONE);
+        if (durationLabel != null) {
+            durationLabel.setText(DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS));
         }
 
-        if (distance > 0) {
-            distanceLabel.setText(FormatUtils.getFormattedDistanceLabel(distance));
-            distanceLayout.setVisibility(View.VISIBLE);
-        } else {
-            distanceLayout.setVisibility(View.GONE);
+        if (hrLabel != null) {
+            if (heartRate > 0) {
+                hrLabel.setText(String.valueOf(heartRate));
+                if (hrLayout != null) hrLayout.setVisibility(View.VISIBLE);
+            } else {
+                if (hrLayout != null) hrLayout.setVisibility(View.GONE);
+            }
         }
 
-        if (steps > 0) {
-            stepLabel.setText(String.valueOf(steps));
-            stepsLayout.setVisibility(View.VISIBLE);
-        } else {
-            stepsLayout.setVisibility(View.GONE);
+        if (intensityLabel != null) {
+            if (intensity >= 0) {
+                final DecimalFormat df = new DecimalFormat("###");
+                intensityLabel.setText(df.format(intensity));
+                if (intensityLayout != null) intensityLayout.setVisibility(View.VISIBLE);
+            } else {
+                if (intensityLayout != null) intensityLayout.setVisibility(View.GONE);
+            }
         }
 
-        if (date != null) {
-            dateLabel.setText(DateTimeUtils.formatDateTimeRelative(rootView.getContext(), date));
-            dateLabel.setVisibility(View.VISIBLE);
-        } else {
-            dateLabel.setVisibility(View.GONE);
+        if (distanceLabel != null) {
+            if (distance > 0) {
+                distanceLabel.setText(FormatUtils.getFormattedDistanceLabel(distance));
+                if (distanceLayout != null) distanceLayout.setVisibility(View.VISIBLE);
+            } else {
+                if (distanceLayout != null) distanceLayout.setVisibility(View.GONE);
+            }
         }
 
-        if (timeFrom != null && timeTo != null) {
-            timeFromView.setText(DateTimeUtils.formatTime(timeFrom.getHours(), timeFrom.getMinutes()));
-            timeToView.setText(DateTimeUtils.formatTime(timeTo.getHours(), timeTo.getMinutes()));
-            timeLayout.setVisibility(View.VISIBLE);
-        } else {
-            timeLayout.setVisibility(View.GONE);
+        if (stepLabel != null) {
+            if (steps > 0) {
+                stepLabel.setText(String.valueOf(steps));
+                if (stepsLayout != null) stepsLayout.setVisibility(View.VISIBLE);
+            } else {
+                if (stepsLayout != null) stepsLayout.setVisibility(View.GONE);
+            }
         }
 
-        if (hasGps) {
-            gpsIcon.setVisibility(View.VISIBLE);
-        } else {
-            gpsIcon.setVisibility(View.GONE);
+        if (dateLabel != null) {
+            if (date != null) {
+                dateLabel.setText(DateTimeUtils.formatDateTimeRelative(rootView.getContext(), date));
+                dateLabel.setVisibility(View.VISIBLE);
+            } else {
+                dateLabel.setVisibility(View.GONE);
+            }
         }
 
-        activityIcon.setImageResource(activityKind.getIcon());
+        if (timeLayout != null) {
+            if (timeFrom != null && timeTo != null) {
+                if (timeFromView != null) timeFromView.setText(DateTimeUtils.formatTime(timeFrom.getHours(), timeFrom.getMinutes()));
+                if (timeToView != null) timeToView.setText(DateTimeUtils.formatTime(timeTo.getHours(), timeTo.getMinutes()));
+                timeLayout.setVisibility(View.VISIBLE);
+            } else {
+                timeLayout.setVisibility(View.GONE);
+            }
+        }
+
+        if (gpsIcon != null) {
+            gpsIcon.setVisibility(hasGps ? View.VISIBLE : View.GONE);
+        }
+
+        if (activityIcon != null) {
+            activityIcon.setImageResource(activityKind.getIcon());
+        }
 
         if (parentLayout != null) {
             if (selected) {
                 parentLayout.setBackgroundColor(selectedColor);
             } else {
-                parentLayout.setBackgroundColor(backgroundColor);
+                parentLayout.setBackgroundColor(zebraStripe ? alternateColor : backgroundColor);
             }
         }
     }

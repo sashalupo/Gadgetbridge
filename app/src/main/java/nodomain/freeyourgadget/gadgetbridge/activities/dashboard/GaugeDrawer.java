@@ -35,14 +35,14 @@ public class GaugeDrawer {
 
         final int width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                150,
+                60,
                 GBApplication.getContext().getResources().getDisplayMetrics()
         );
 
         // Draw gauge
         gaugeBar.setImageBitmap(drawSimpleGaugeInternal(
                 width,
-                Math.round(width * 0.075f),
+                Math.round(width * 0.12f),
                 color,
                 value
         ));
@@ -100,11 +100,11 @@ public class GaugeDrawer {
 
         final int width = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                150,
+                60,
                 GBApplication.getContext().getResources().getDisplayMetrics()
         );
 
-        final int barWidth = Math.round(width * 0.075f);
+        final int barWidth = Math.round(width * 0.12f);
 
         final int height = width / 2;
         final int barMargin = (int) Math.ceil(barWidth / 2f);

@@ -7,11 +7,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice
 import org.json.JSONArray
 import org.json.JSONObject
 
-enum class MiBandWorkoutType(val key: String, @StringRes val nameRes: Int) {
-    CLIMBING("climbing", R.string.miband_workout_type_climbing),
-    GRAVEL("gravel", R.string.miband_workout_type_gravel),
-    ANIMAL_FLOW("animal_flow", R.string.miband_workout_type_animal_flow),
-    WALKING("walking", R.string.miband_workout_type_walking);
+enum class MiBandWorkoutType(val key: String, @StringRes val nameRes: Int, @androidx.annotation.DrawableRes val iconRes: Int) {
+    CLIMBING("climbing", R.string.miband_workout_type_climbing, R.drawable.ic_activity_climbing),
+    GRAVEL("gravel", R.string.miband_workout_type_gravel, R.drawable.ic_activity_biking),
+    ANIMAL_FLOW("animal_flow", R.string.miband_workout_type_animal_flow, R.drawable.ic_activity_yoga),
+    WALKING("walking", R.string.miband_workout_type_walking, R.drawable.ic_steps);
 
     companion object {
         fun fromKey(key: String): MiBandWorkoutType {

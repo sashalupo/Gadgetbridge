@@ -6,6 +6,10 @@
         android:id="@+id/bottom_nav_dashboard"
         android:icon="@drawable/ic_dashboard"/>
     <item
+        android:title="@string/miband_workout_hub_title"
+        android:id="@+id/bottom_nav_journal"
+        android:icon="@drawable/ic_history"/>
+    <item
         android:title="@string/bottom_nav_devices"
         android:id="@+id/bottom_nav_devices"
         android:icon="@drawable/ic_devices_other"/>

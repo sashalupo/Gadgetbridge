@@ -6,10 +6,10 @@
         <item name="textColorSecondary">@color/secondarytext</item>
         <item name="textColorTertiary">@color/tertiarytext_light</item>
 
-        <item name="colorPrimary">@color/primarydark_light</item>
-        <item name="colorPrimaryDark">@color/primarydark_light</item>
+        <item name="colorPrimary">@color/garmin_blue</item>
+        <item name="colorPrimaryDark">@color/garmin_dark_background</item>
 
-        <item name="colorPrimaryContainer">@color/accent</item>
+        <item name="colorPrimaryContainer">@color/garmin_blue</item>
         <item name="colorOnPrimaryContainer">@android:color/white</item>
 
         <item name="elevationOverlayEnabled">false</item>
@@ -54,11 +54,14 @@
         <item name="textColorSecondary">@color/secondarytext</item>
         <item name="textColorTertiary">@color/tertiarytext_dark</item>
 
-        <item name="colorPrimary">@color/primarydark_dark</item>
-        <item name="colorPrimaryDark">@color/primarydark_dark</item>
+        <item name="android:windowBackground">@color/garmin_dark_background</item>
+        <item name="cardview_background_color">@color/garmin_card_background</item>
+
+        <item name="colorPrimary">@color/garmin_blue</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
 
         <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorPrimaryContainer">@color/accent</item>
+        <item name="colorPrimaryContainer">@color/garmin_blue</item>
         <item name="colorOnPrimaryContainer">@android:color/white</item>
 
         <item name="elevationOverlayEnabled">false</item>
@@ -69,9 +72,8 @@
         <item name="actionOverflowButtonStyle">@style/GadgetbridgeTheme.OverflowMenuButton</item>
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
 
-        <item name="drawer_header_color">?attr/colorPrimaryDark</item>
+        <item name="drawer_header_color">@android:color/black</item>
         <item name="drawer_title_color">@android:color/white</item>
-        <item name="cardview_background_color">@color/cardview_dark_background</item>
         <item name="actionmenu_icon_color">@android:color/white</item>
         <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
@@ -153,7 +155,25 @@
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 
+    <style name="GadgetbridgeThemeGarmin" parent="GadgetbridgeThemeDark">
+        <item name="android:windowBackground">@color/garmin_dark_background</item>
+        <item name="cardview_background_color">@color/garmin_card_background</item>
+        <item name="colorPrimary">@color/garmin_blue</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="colorAccent">@color/garmin_blue</item>
+        <item name="actionBarStyle">@style/GadgetbridgeTheme.GarminActionBar</item>
+    </style>
+
+    <style name="GadgetbridgeTheme.GarminActionBar" parent="Widget.Material3.ActionBar.Solid">
+        <item name="titleTextStyle">@style/GadgetbridgeTheme.ActionBarTitleStyle</item>
+        <item name="background">@android:color/black</item>
+    </style>
+
     <!-- theme variants without action bar -->
+    <style name="GadgetbridgeThemeGarmin.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
     <style name="GadgetbridgeTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

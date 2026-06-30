@@ -45,16 +45,16 @@ public abstract class AbstractDashboardWidget extends Fragment {
     protected DashboardFragment.DashboardData dashboardData;
 
     protected @ColorInt int color_unknown = Color.argb(25, 128, 128, 128);
-    protected @ColorInt int color_not_worn = Color.BLACK;
-    protected @ColorInt int color_worn = Color.rgb(128, 128, 128);
-    protected @ColorInt int color_activity = Color.GREEN;
-    protected @ColorInt int color_exercise = Color.rgb(255, 128, 0);
-    protected @ColorInt int color_deep_sleep = Color.rgb(0, 84, 163);
-    protected @ColorInt int color_light_sleep = Color.rgb(7, 158, 243);
-    protected @ColorInt int color_rem_sleep = Color.rgb(228, 39, 199);
-    protected @ColorInt int color_awake_sleep = Color.rgb(0xff, 0x86, 0x6e);
-    protected @ColorInt int color_distance = Color.BLUE;
-    protected @ColorInt int color_active_time = Color.rgb(170, 0, 255);
+    protected @ColorInt int color_not_worn;
+    protected @ColorInt int color_worn;
+    protected @ColorInt int color_activity;
+    protected @ColorInt int color_exercise;
+    protected @ColorInt int color_deep_sleep;
+    protected @ColorInt int color_light_sleep;
+    protected @ColorInt int color_rem_sleep;
+    protected @ColorInt int color_awake_sleep;
+    protected @ColorInt int color_distance;
+    protected @ColorInt int color_active_time;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,17 @@ public abstract class AbstractDashboardWidget extends Fragment {
         if (getArguments() != null) {
             dashboardData = (DashboardFragment.DashboardData) getArguments().getSerializable(ARG_DASHBOARD_DATA);
         }
+
+        color_not_worn = Color.BLACK;
+        color_worn = Color.rgb(128, 128, 128);
+        color_activity = requireContext().getColor(R.color.garmin_blue);
+        color_exercise = requireContext().getColor(R.color.garmin_orange);
+        color_deep_sleep = requireContext().getColor(R.color.garmin_purple);
+        color_light_sleep = Color.rgb(7, 158, 243);
+        color_rem_sleep = Color.rgb(228, 39, 199);
+        color_awake_sleep = Color.rgb(0xff, 0x86, 0x6e);
+        color_distance = requireContext().getColor(R.color.garmin_blue);
+        color_active_time = requireContext().getColor(R.color.garmin_orange);
     }
 
     public void update() {

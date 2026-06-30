@@ -1,289 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_item_parent_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/selectableItemBackground"
+    android:padding="12dp">
 
     <LinearLayout
-        android:gravity="start"
-        android:layout_gravity="start"
-        android:id="@+id/list_item_subparent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp"
-        android:background="?attr/selectableItemBackground"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-            <LinearLayout
-                android:id="@+id/line_layout_time"
+        <ImageView
+            android:id="@+id/line_layout_activity_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:background="@drawable/ic_circle"
+            android:backgroundTint="@color/garmin_blue"
+            app:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_activity_unknown" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/line_layout_activity_name"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/line_layout_time_from"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="@string/time_empty_value" />
-
-                <TextView
-                    android:id="@+id/line_layout_time_to"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:gravity="bottom"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="@string/time_empty_value" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_horizontal|center_vertical"
-                >
-
-                <ImageView
-                    android:id="@+id/line_layout_activity_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="5dp"
-                    android:contentDescription="@string/candidate_item_device_image"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_activity_unknown" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:minHeight="50dp"
-                >
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textStyle="bold"
+                android:textColor="?attr/textColorPrimary" />
 
-                <TableLayout
-                    android:gravity="top"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:shrinkColumns="0"
-                    >
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
-                        <TextView
-                            android:id="@+id/line_layout_activity_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:scrollHorizontally="false"
-                            android:text="@string/unknown"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:singleLine="true"
-                            android:ellipsize="end"
-                            />
-                        <TextView
-                            android:gravity="end|bottom"
-                            android:layout_gravity="top"
-                            android:id="@+id/line_layout_date_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:scrollHorizontally="false"
-                            android:text="@string/stats_empty_value"
-                            android:singleLine="true"
-                            android:ellipsize="none"
-                            />
-                    </TableRow>
-                </TableLayout>
-                <TextView
-                    android:id="@+id/line_layout_activity_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    >
-                    <TextView
-                        android:id="@+id/line_layout_duration_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:maxLines="1"
-                        android:scrollHorizontally="false"
-                        android:text="@string/stats_empty_value" />
-                    <LinearLayout
-                        android:id="@+id/line_layout_duration_gps"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/line_layout_gps_icon"
-                            android:layout_width="20dp"
-                            android:layout_marginStart="2dp"
-                            android:layout_height="19dp"
-                            android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@android:drawable/ic_menu_mylocation" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:orientation="horizontal"
-                    >
-
-                    <LinearLayout
-                        android:id="@+id/line_layout_step"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="bottom|start"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/line_layout_step_icon"
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="bottom|start"
-                            android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@drawable/ic_shoe_print" />
-
-                        <TextView
-                            android:id="@+id/line_layout_step_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:maxLines="1"
-                            android:scrollHorizontally="false"
-                            android:text="@string/stats_empty_value" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/line_layout_intensity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="start"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/line_layout_intensity_icon"
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="start"
-                            android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@drawable/ic_intensity" />
-
-                        <TextView
-                            android:id="@+id/line_layout_intensity_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:maxLines="1"
-                            android:scrollHorizontally="false"
-                            android:text="@string/stats_empty_value" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/line_layout_distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="start"
-                        android:gravity="start"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/line_layout_distance_icon"
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="start"
-                            android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@drawable/ic_distance" />
-
-                        <TextView
-                            android:id="@+id/line_layout_distance_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginEnd="4dp"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:maxLines="1"
-                            android:scrollHorizontally="false"
-                            android:text="@string/stats_empty_value" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/line_layout_hr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="start"
-                        android:gravity="start"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/line_layout_hr_icon"
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
-                            android:layout_gravity="start"
-                            android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@drawable/ic_heartrate" />
-
-                        <TextView
-                            android:id="@+id/line_layout_hr_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginEnd="2dp"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:maxLines="1"
-                            android:scrollHorizontally="false"
-                            android:text="@string/stats_empty_value" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/line_layout_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                android:textColor="?attr/textColorSecondary" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/line_layout_gps_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_gps_location"
+            app:tint="@color/garmin_green" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_detail_duration_label"
+                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textColor="?attr/textColorSecondary" />
+            <TextView
+                android:id="@+id/line_layout_duration_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line_layout_distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/distance"
+                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textColor="?attr/textColorSecondary" />
+            <TextView
+                android:id="@+id/line_layout_distance_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line_layout_hr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Avg HR"
+                android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                android:textColor="?attr/textColorSecondary" />
+            <TextView
+                android:id="@+id/line_layout_hr_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textStyle="bold"
+                android:textColor="@color/garmin_red" />
+        </LinearLayout>
+    </LinearLayout>
+
     <View
-        android:layout_below="@id/list_item_subparent_layout"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/row_separator"
-        />
-</RelativeLayout>
+        android:layout_marginTop="12dp"
+        android:background="?attr/row_separator" />
+</LinearLayout>
