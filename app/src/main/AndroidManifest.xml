@@ -316,6 +316,10 @@
             android:label="@string/miband_workout_hub_title"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.workouts.MiBandWorkoutDetailActivity"
+            android:label="@string/activity_summary_detail"
+            android:parentActivityName=".activities.workouts.MiBandWorkoutHubActivity" />
+        <activity
             android:name=".activities.appmanager.AppManagerActivity"
             android:label="@string/title_activity_appmanager"
             android:launchMode="singleTop"
