@@ -1,14 +1,15 @@
-FROM ghcr.io/alvr/alpine-android:android-33-jdk21
+FROM ghcr.io/alvr/alpine-android:android-36-jdk21
 
 ARG USERNAME=developer
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 RUN apk --no-cache add git \
-    sudo \ 
+    sudo \
     nano \
     bash \
-    bash-completion && \
+    bash-completion \
+    libstdc++ && \
     # setup sudo user and permissions
     addgroup -g $USER_GID $USERNAME && \
     adduser -u $USER_UID -G $USERNAME $USERNAME --disabled-password -s /bin/bash && \

@@ -17,8 +17,8 @@
         "--init",
         "--network=host",
         "--device=/dev/bus/usb",
-        "--privileged",
-//        "--userns=keep-id" // needed if podman is used instead of docker
+        "--privileged"
+        //        "--userns=keep-id" // needed if podman is used instead of docker
     ],
     "postStartCommand": "sudo chown -R developer:developer /opt/sdk/",
     "initializeCommand": "mkdir -p ${localEnv:HOME}/.android" // make sure folder exists so that bind mount does not fail
